@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reg</title>
+</head>
+<body>
+    <div class="container">
+        <form action="" method="post">
+            <div id="info"></div>
+            <div>
+                <input type="text" placeholder="firstname" style="padding: 1em 7em;" id="first">
+            </div>
+            <div>
+                <input type="text" placeholder="lasttname" style="padding: 1em 7em;" id="last">
+            </div>
+            <div>
+                <input type="email" placeholder="email" style="padding: 1em 7em;" id="email">
+            </div>
+            <div>
+                <input type="password" placeholder="password" style="padding: 1em 7em;" id="password">
+            </div>
+            <div>
+                <button id="btn">submit</button>
+            </div>
+            <a href="login.html">login here!</a>
+        </form>
+    </div>
+    <script>
+    
+        let user =[]
+        let butt = document.getElementById("btn")
+        butt.addEventListener("click", function(e){
+           e.preventDefault()
+           let firstname = document.getElementById("first").value
+           let lastname = document.getElementById("last").value
+           let email = document.getElementById("email").value
+           let password = document.getElementById("password").value
+        //    alert("jwowokw")
+           let error = document.getElementById("info")
+           if(firstname == 0 && lastname == 0 && email == 0 && password == 0){
+            error.append("invalid cred")
+           }
+           else{
+              let checkUser = localStorage.getItem("register-user")
+              JSON.parse(checkUser)
+              if(checkUser == null){
+                let newUser = {
+                    firstname : firstname,
+                    lastname: lastname,
+                    email: email,
+                    password: password
+                }
+                user.push(newUser)
+                // console.log(user)
+                let saveUser = localStorage.setItem("register-user", JSON.stringify(user))
+                console.log(saveUser)
+                if(saveUser){
+                    window.location.href = "home.html"
+                }
+              }else{
+                let userTrack = []
+                let findUser = JSON.parse(localStorage.getItem("register-user"))
+                
+                for(let i = 0; i < findUser.length; i++){
+                    if(findUser[i].email == email){
+                        userTrack.push(findUser[i].email)
+
+                        break;
+                    }
+                }
+                if(userTrack.length > 0 ){
+                    error.append("user exists")
+                }
+                else{
+                   // recent = []
+                   if(findUser.length > 0){
+                    let addUser = {
+                    firstname : firstname,
+                    lastname: lastname,
+                    email: email,  
+                    password: password
+                }
+                user.push(addUser)
+                 
+                let savenewUser = localStorage.setItem("register-user", JSON.stringify(user))
+                // 
+                    // window.location.href = "home.html"
+                    }
+                }
+              }
+            
+           }
+           
+        })
+    window.onload = function(){
+    let getOnLoad = JSON.parse(localStorage.getItem("register-user"));
+
+    // checking if there is data in the local storage
+        if(getOnLoad != null) { 
+
+            // Yes there is data then set the new local storage 
+            localStorage.setItem("reLoad", JSON.stringify(getOnLoad));
+
+            // Then get the data back and push it to our users global array
+            let checkUser = JSON.parse(localStorage.getItem("reLoad"));
+            console.log(checkUser);
+            
+            checkUser.forEach(function(item, index) {
+                console.log(item)
+                user.push(item)
+            })
+
+            // terminate the localStorage
+            localStorage.removeItem("reLoad")
+
+
+        }
+
+} 
+   </script>
+</body>
+</html>

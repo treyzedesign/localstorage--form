@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <form action="" method="post">
+            <div id="info"></div>
+            <div>
+                <input type="email" placeholder="email" style="padding: 1em 7em;" id="email">
+            </div>
+            <div>
+                <input type="password" placeholder="password" style="padding: 1em 7em;" id="password">
+            </div>
+            <div>
+                <button id="btn">submit</button>
+            </div>
+            <a href="index.html">register here!</a>
+        </form>
+    </div>
+    <script>
+        let button = document.getElementById("btn")
+        button.addEventListener("click", function(e){
+        e.preventDefault()
+            let email = document.getElementById("email").value
+           let password = document.getElementById("password").value
+           let error = document.getElementById("info")
+           if(email == 0 && password == 0){
+            error.append("invalid cred")
+           }else{
+            let userTrack = []
+                let findUser = JSON.parse(localStorage.getItem("register-user"))
+                for(let i = 0; i < findUser.length ; i++){
+                    if(findUser[i].email == email && findUser[i].password == password){
+                      userTrack.push(findUser[i].email, findUser[i].password)
+                      console.log(userTrack)
+                      break;
+                    }
+                }
+                if(userTrack.length > 0){
+                    window.location.href ="home.html"
+                }
+                else{
+                    error.append("invalid cred")
+                }
+           }
+        })
+    </script>
+</body>
+</html>
